@@ -1,0 +1,10 @@
+{
+	"ImportPath": "github.com/wolfeidau/go-bootstrap",
+	"GoVersion": "go1.2.2",
+	"Deps": [
+		{
+			"ImportPath": "github.com/mitchellh/cli",
+			"Rev": "69f0b65ce53b27f729b1b807b88dc88007f41dd3"
+		}
+	]
+}
