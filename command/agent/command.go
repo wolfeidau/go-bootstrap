@@ -1,6 +1,7 @@
 package agent
 
 import (
+	"flag"
 	"strings"
 
 	"github.com/juju/loggo"
@@ -11,27 +12,45 @@ type Command struct {
 	Ui         cli.Ui
 	ShutdownCh <-chan struct{}
 	Log        loggo.Logger
+	debug      bool
 }
 
-func (c *Command) Run(_ []string) int {
+func (c *Command) Run(args []string) int {
+
+	cmdFlags := flag.NewFlagSet("agent", flag.ContinueOnError)
+	cmdFlags.Usage = func() { c.Ui.Output(c.Help()) }
+	cmdFlags.BoolVar(&c.debug, "debug", false, "Enable debug level logging for the agent.")
+
+	if err := cmdFlags.Parse(args); err != nil {
+		return 1
+	}
+
+	if c.debug {
+		// set the root logger to debug
+		loggo.GetLogger("").SetLogLevel(loggo.DEBUG)
+	}
+
+	// configure the agent logger
 	c.Log = loggo.GetLogger("agent")
-	c.Log.Warningf("test")
+
+	// main logic here
+
 	return 0
 }
 
 func (c *Command) Synopsis() string {
-	return "Runs a myapp agent"
+	return "Runs a appname agent"
 }
 
 func (c *Command) Help() string {
 	helpText := `
-Usage: myapp agent [options]
+Usage: appname agent [options]
 
-  Starts the myapp agent and runs until an interrupt is received.
+  Starts the appname agent and runs until an interrupt is received.
 
 Options:
 
-  -log-level=info          Log level of the agent.
+  -debug              Enable debug level logging for the agent.
 `
 	return strings.TrimSpace(helpText)
 }

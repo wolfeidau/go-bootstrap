@@ -3,6 +3,10 @@
 	"GoVersion": "go1.2.2",
 	"Deps": [
 		{
+			"ImportPath": "github.com/juju/loggo",
+			"Rev": "7e8c70b24b80b95b2284f09306aac0bd93588db8"
+		},
+		{
 			"ImportPath": "github.com/mitchellh/cli",
 			"Rev": "69f0b65ce53b27f729b1b807b88dc88007f41dd3"
 		}
