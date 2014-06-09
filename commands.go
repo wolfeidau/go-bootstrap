@@ -1,10 +1,14 @@
 package main
 
 import (
-	"github.com/wolfeidau/go-bootstrap/command"
-	"github.com/mitchellh/cli"
 	"os"
 	"os/signal"
+
+	"github.com/juju/loggo"
+
+	"github.com/mitchellh/cli"
+	"github.com/wolfeidau/go-bootstrap/command"
+	"github.com/wolfeidau/go-bootstrap/command/agent"
 )
 
 // Commands is the mapping of all the available Serf commands.
@@ -12,8 +16,17 @@ var Commands map[string]cli.CommandFactory
 
 func init() {
 	ui := &cli.BasicUi{Writer: os.Stdout}
+	log := loggo.GetLogger("myapp")
 
 	Commands = map[string]cli.CommandFactory{
+
+		"agent": func() (cli.Command, error) {
+			return &agent.Command{
+				Ui:         ui,
+				ShutdownCh: make(chan struct{}),
+				Log:        log,
+			}, nil
+		},
 
 		"version": func() (cli.Command, error) {
 			return &command.VersionCommand{
