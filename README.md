@@ -8,14 +8,7 @@ binaries.
 
 # get started
 
-Modify the following files to update the name of the service, this will be automated in the future.
-
-* `.gitignore`
-* `Makefile`
-* `command/version.go`
-* `command/agent/command.go`
-
-Code changes are located as follows, found using ack:
+* Modify the name of the service in the following places, found using ack:
 
 ```
 $ ack appname
@@ -31,3 +24,17 @@ command/version.go
 main.go
 35:		HelpFunc: cli.BasicHelpFunc("appname"),
 ```
+
+* Add code to the agent, this is where the long running service logic lives.
+
+* Add any status, action commands you need.
+
+Note, this will be automated in the future.
+
+# Plan
+
+* Add an example REST endpoint using [negroni](https://github.com/codegangsta/negroni).
+* Add an RPC service for commands to query status / metrics on the local system.
+* Add some example metrics for the aforementioned features.
+* Authentication of RPC requests.
+* Build an example using REST and static JS site to show a working single page app.
